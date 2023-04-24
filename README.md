@@ -1,2 +1,2 @@
-# pursuit-evasion-on-graph
+# Pursuit Evasion
 Using Graphs
