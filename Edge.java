@@ -1,7 +1,7 @@
 public class Edge {
     
-    double distance;
-    Vertex v1, v2;
+    private double distance;
+    private Vertex v1, v2;
 
     public Edge(Vertex u, Vertex v, double distance){
         this.distance = distance;

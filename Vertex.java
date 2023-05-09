@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class Vertex{
 
-    LinkedList<Edge> edges;
+    private LinkedList<Edge> edges;
 
     public Vertex(){
         edges = new LinkedList<>();

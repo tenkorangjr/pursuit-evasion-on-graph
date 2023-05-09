@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
@@ -9,9 +10,10 @@ public class Graph {
     private int size;
 
     public Graph(int n, double probability){
-        size = n;
         Random picker = new Random();
         vertices = new LinkedList<>();
+        edges = new LinkedList<>();
+        this.size = n;
 
         for (int i = 0; i < n; i++){
             vertices.addLast(new Vertex());
@@ -45,7 +47,7 @@ public class Graph {
      * Return a list of the vertices in the graph
      * @return
      */
-    public Iterable<Vertex> getVertices(){
+    public LinkedList<Vertex> getVertices(){
         return vertices;
     }
 
@@ -53,7 +55,7 @@ public class Graph {
      * Return the list of the edges in the graph
      * @return
      */
-    public Iterable<Edge> getEdges(){
+    public LinkedList<Edge> getEdges(){
         return edges;
     }
 
@@ -64,6 +66,7 @@ public class Graph {
     public Vertex addVertex(){
         Vertex newVertex = new Vertex();
         vertices.addLast(newVertex);
+        size += 1;
         return newVertex;
     }
 
@@ -110,6 +113,7 @@ public class Graph {
             for (Edge edge: vertex.incidentEdges()){
                 edge.other(vertex).removeEdge(edge);
             }
+            size -= 1;
             return true;
         }
         return false;
@@ -140,6 +144,58 @@ public class Graph {
      * @return
      */
     public HashMap<Vertex, Double> distanceFrom(Vertex source){
-        
+        HashMap<Vertex, Double> distances = new HashMap<>();
+
+        distances.put(source, 0.0);
+        for (Vertex vertex: vertices){
+            if (!vertex.equals(source)){
+                distances.put(vertex, Double.POSITIVE_INFINITY);
+            }
+        }
+
+        Comparator<Vertex> comparator = new Comparator<Vertex>() {
+
+            @Override
+            public int compare(Vertex o1, Vertex o2) {
+                if (distances.get(o1) > distances.get(o2)){
+                    return 1;
+                } else if (distances.get(o1) < distances.get(o2)){
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+            
+        };
+        PriorityQueue<Vertex> priorityQueue = new Heap<Vertex>(comparator, false);
+
+        priorityQueue.offer(source);
+        for (Vertex vertex: vertices){
+            if (!vertex.equals(source)){
+                priorityQueue.offer(vertex);
+            }  
+        }
+
+        while (priorityQueue.size() > 0){
+            Vertex curVertex = priorityQueue.poll();
+            for (Edge edge: curVertex.incidentEdges()){
+                double newDistance = distances.get(curVertex) + edge.distance();
+
+                Vertex otherVertex = edge.other(curVertex);
+                if (newDistance < distances.get(otherVertex)){
+                    distances.put(otherVertex, newDistance);
+                    priorityQueue.updatePriority(otherVertex);
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    public static void main(String[] args) {
+        Graph graph = new Graph(10, 0.5);
+
+        assert graph.size() == 10: "size() method not working";
+        System.out.println("10 == " + graph.size());
     }
 }
