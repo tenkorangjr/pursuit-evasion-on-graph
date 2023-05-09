@@ -21,7 +21,7 @@ public class MoveTowardsPlayerAlgorithm extends AbstractPlayerAlgorithm{
 
     @Override
     public Vertex chooseStart(Vertex other) {
-        HashMap<Vertex, Double> distances = graph.distanceFrom(curVertex);
+        HashMap<Vertex, Double> distances = graph.distanceFrom(other);
         Vertex minVertex = null;
 
         for (Vertex vertex: graph.getVertices()){
@@ -39,7 +39,7 @@ public class MoveTowardsPlayerAlgorithm extends AbstractPlayerAlgorithm{
 
     @Override
     public Vertex chooseNext(Vertex otherPlayer) {
-        HashMap<Vertex, Double> distances = graph.distanceFrom(curVertex);
+        HashMap<Vertex, Double> distances = graph.distanceFrom(otherPlayer);
         Vertex leastNeighbor = null;
 
         for (Vertex vertex: curVertex.adjacentVertices()){
