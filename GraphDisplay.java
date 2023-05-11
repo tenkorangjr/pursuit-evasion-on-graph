@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -61,6 +62,7 @@ public class GraphDisplay {
     private LandscapePanel canvas;
     private int gridScale; // width (and height) of each square in the grid
     AbstractPlayerAlgorithm pursuer, evader;
+    LinkedList<AbstractPlayerAlgorithm> pursuers;
     HashMap<Vertex, Coord> coords;
 
     /**
@@ -77,11 +79,43 @@ public class GraphDisplay {
     public GraphDisplay(Graph g, AbstractPlayerAlgorithm pursuer, AbstractPlayerAlgorithm evader, int scale)
             throws InterruptedException {
 
+        this.pursuers = new LinkedList<>();
+
         // setup the window
         this.win = new JFrame("Grid-Search");
         this.win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.pursuers.addLast(pursuer);
+
         this.pursuer = pursuer;
+        this.evader = evader;
+
+        this.graph = g;
+        this.gridScale = scale;
+
+        // create a panel in which to display the Landscape
+        // put a buffer of two rows around the display grid
+        this.canvas = new LandscapePanel((int) (this.graph.size()) * this.gridScale,
+                (int) (this.graph.size()) * this.gridScale);
+
+        // add the panel to the window, layout, and display
+        this.win.add(this.canvas, BorderLayout.CENTER);
+        this.win.pack();
+        createCoordinateSystem();
+        this.win.setVisible(true);
+        repaint();
+    }
+
+    public GraphDisplay(Graph g, AbstractPlayerAlgorithm pursuer1, AbstractPlayerAlgorithm pursuer2, AbstractPlayerAlgorithm evader, int scale)
+            throws InterruptedException {
+
+        // setup the window
+        this.win = new JFrame("Grid-Search");
+        this.win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.pursuers = new LinkedList<>();
+        this.pursuers.add(pursuer1);
+        this.pursuers.add(pursuer2);
         this.evader = evader;
 
         this.graph = g;
@@ -242,6 +276,9 @@ public class GraphDisplay {
             super.paintComponent(g);
             if (pursuer != null && pursuer.getCurrentVertex() == evader.getCurrentVertex())
                 setBackground(new Color(0, 255, 0));
+            else if (pursuer == null && pursuers.size() == 2 && (pursuers.get(0).getCurrentVertex() == evader.getCurrentVertex() || pursuers.get(1).getCurrentVertex() == evader.getCurrentVertex())){
+                setBackground(new Color(0, 255, 0));
+            }
             g.translate(canvas.getWidth() / 2, canvas.getHeight() / 2);
             for (Edge e : graph.getEdges()) {
                 g.setColor(Color.BLACK);
@@ -251,7 +288,20 @@ public class GraphDisplay {
                         (int) coords.get(e.vertices()[1]).y + gridScale / 4);
             }
             for (Vertex v : graph.getVertices()) {
-                if (pursuer != null && v == pursuer.getCurrentVertex() && v == evader.getCurrentVertex())
+                if (pursuers.size() == 2) {
+                    if ((pursuers.get(0) != null && pursuers.get(1) != null) && (v == pursuers.get(0).getCurrentVertex() || v == pursuers.get(1).getCurrentVertex()) && v == evader.getCurrentVertex())
+                        g.setColor(new Color(148, 0, 211));
+                    else if (pursuers.get(0) != null && v == pursuers.get(0).getCurrentVertex())
+                        g.setColor(Color.BLUE);
+                    else if (pursuers.get(1) != null && v == pursuers.get(1).getCurrentVertex())
+                        g.setColor(Color.BLUE);
+                    else if (evader != null && v == evader.getCurrentVertex())
+                        g.setColor(Color.RED);
+                    else
+                        g.setColor(Color.BLACK);
+                    g.fillOval((int) coords.get(v).x, (int) coords.get(v).y, gridScale / 2, gridScale / 2);
+                } else {
+                    if (pursuer != null && v == pursuer.getCurrentVertex() && v == evader.getCurrentVertex())
                     g.setColor(new Color(148, 0, 211));
                 else if (pursuer != null && v == pursuer.getCurrentVertex())
                     g.setColor(Color.BLUE);
@@ -260,6 +310,7 @@ public class GraphDisplay {
                 else
                     g.setColor(Color.BLACK);
                 g.fillOval((int) coords.get(v).x, (int) coords.get(v).y, gridScale / 2, gridScale / 2);
+                }
             }
         } // end paintComponent
 
@@ -296,19 +347,22 @@ public class GraphDisplay {
         // g.addEdge(ordered.get(i), ordered.get((i + 5)), 2);
         // g.addEdge(ordered.get(i + 5), ordered.get(((i + 2) % 5) + 5), 1);
         // }
-        AbstractPlayerAlgorithm pursuer = new SmartPursuitPlayerAlgorithm(g); // blue
+        AbstractPlayerAlgorithm pursuer1 = new SmartPursuitPlayerAlgorithm(g); // blue
+        AbstractPlayerAlgorithm pursuer2 = new SmartPursuitPlayerAlgorithm(g); // blue
         AbstractPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(g); // red
-        pursuer.chooseStart();
-        evader.chooseStart(pursuer.getCurrentVertex());
-        GraphDisplay gd = new GraphDisplay(g, pursuer, evader, 80);
-        while (pursuer.getCurrentVertex() != evader.getCurrentVertex()) {
+        pursuer1.chooseStart();
+        pursuer2.chooseStart();
+        evader.chooseStart(pursuer1.getCurrentVertex());
+        GraphDisplay gd = new GraphDisplay(g, pursuer1, pursuer2, evader, 80);
+        while ((pursuer2.getCurrentVertex() != evader.getCurrentVertex()) || (pursuer1.getCurrentVertex() != evader.getCurrentVertex())) {
             Thread.sleep(1000);
-            pursuer.chooseNext(evader.getCurrentVertex());
+            pursuer1.chooseNext(evader.getCurrentVertex());
+            pursuer2.chooseNext(evader.getCurrentVertex());
             gd.repaint();
-            if (pursuer.getCurrentVertex() == evader.getCurrentVertex())
+            if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                 break;
             Thread.sleep(1000);
-            evader.chooseNext(pursuer.getCurrentVertex());
+            evader.chooseNext(pursuer1.getCurrentVertex());
             gd.repaint();
         }
 
