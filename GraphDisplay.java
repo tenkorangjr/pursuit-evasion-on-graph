@@ -296,8 +296,8 @@ public class GraphDisplay {
         // g.addEdge(ordered.get(i), ordered.get((i + 5)), 2);
         // g.addEdge(ordered.get(i + 5), ordered.get(((i + 2) % 5) + 5), 1);
         // }
-        AbstractPlayerAlgorithm pursuer = new MoveTowardsPlayerAlgorithm(g); // blue
-        AbstractPlayerAlgorithm evader = new RandomPlayer(g); // red
+        AbstractPlayerAlgorithm pursuer = new SmartPursuitPlayerAlgorithm(g); // blue
+        AbstractPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(g); // red
         pursuer.chooseStart();
         evader.chooseStart(pursuer.getCurrentVertex());
         GraphDisplay gd = new GraphDisplay(g, pursuer, evader, 80);

@@ -35,6 +35,11 @@ public class SmartPursuitPlayerAlgorithm extends AbstractPlayerAlgorithm {
 
     @Override
     public Vertex chooseNext(Vertex otherPlayer) {
+        if (curVertex.adjacentVertices().contains(otherPlayer)){
+            curVertex = otherPlayer;
+            return curVertex;
+        }
+
         List<Vertex> shortestPath = graph.shortestPath(curVertex, otherPlayer);
         Vertex nextVertex = null;
 
