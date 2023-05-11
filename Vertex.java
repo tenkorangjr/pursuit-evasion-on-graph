@@ -47,7 +47,7 @@ public class Vertex{
      * Returns a list of the vertices adjacent to the vertex
      * @return
      */
-    public Iterable<Vertex> adjacentVertices(){
+    public LinkedList<Vertex> adjacentVertices(){
         LinkedList<Vertex> out = new LinkedList<>();
         for (Edge curEdge: edges){
             out.addLast(curEdge.other(this));

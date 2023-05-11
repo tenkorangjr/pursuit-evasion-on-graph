@@ -18,8 +18,9 @@ public class RandomPlayer extends AbstractPlayerAlgorithm{
 
     @Override
     public Vertex chooseStart(Vertex other) {
+        this.curVertex = graph.getVertices().get(picker.nextInt(0, graph.size()));
         Vertex out = curVertex;
-        while (this.curVertex.equals(out) && out != other){
+        while (out == other){
             out = graph.getVertices().get(picker.nextInt(0, graph.size()));
         }
 
@@ -31,7 +32,7 @@ public class RandomPlayer extends AbstractPlayerAlgorithm{
     public Vertex chooseNext(Vertex otherPlayer) {
         Vertex out = curVertex;
         while (this.curVertex.equals(out)){
-            out = graph.getVertices().get(picker.nextInt(0, graph.size()));
+            out = curVertex.adjacentVertices().get(picker.nextInt(0, curVertex.adjacentVertices().size()));
         }
 
         this.curVertex = out;

@@ -5,6 +5,7 @@ public abstract class AbstractPlayerAlgorithm {
 
     public AbstractPlayerAlgorithm(Graph graph){
         this.graph = graph;
+        this.curVertex = new Vertex();
     }
 
     /**
