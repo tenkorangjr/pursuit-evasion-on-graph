@@ -53,11 +53,5 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         curVertex = maxNeighbor;
         return curVertex;
     }
-
-    public static void main(String[] args) {
-        /*
-         * Testing class
-         */
-    }
     
 }

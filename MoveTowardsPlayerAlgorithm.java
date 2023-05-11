@@ -53,11 +53,5 @@ public class MoveTowardsPlayerAlgorithm extends AbstractPlayerAlgorithm{
         curVertex = leastNeighbor;
         return leastNeighbor;
     }
-
-    public static void main(String[] args) {
-        /*
-         * Testing class 
-         */
-    }
     
 }

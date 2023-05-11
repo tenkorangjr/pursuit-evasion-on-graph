@@ -5,7 +5,7 @@ public class Driver {
         Graph graph = new Graph(n, p);
 
         // Create the pursuer and evader
-        AbstractPlayerAlgorithm pursuer = new MoveTowardsPlayerAlgorithm(graph);
+        AbstractPlayerAlgorithm pursuer = new SmartPursuitPlayerAlgorithm(graph);
         AbstractPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(graph);
 
         // Have each player choose a starting location
@@ -33,7 +33,7 @@ public class Driver {
 
     public static void main(String[] args) throws InterruptedException{
         int n = 7;
-        double p = .3;
+        double p = .4;
         new Driver(n, p);
     }
 }

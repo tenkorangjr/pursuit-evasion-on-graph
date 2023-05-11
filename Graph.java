@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -190,6 +191,60 @@ public class Graph {
         }
 
         return distances;
+    }
+
+    
+    /**
+     * Compute the shortest path in this Graph from the given Vertex source to the target Vertex.
+     * Returns the list of vertices representing the shortest path.
+     * If no path exists, returns null.
+     *
+     * @param source the source vertex
+     * @param target the target vertex
+     * @return the shortest path as a list of vertices
+     */
+    public ArrayList<Vertex> shortestPath(Vertex source, Vertex target) {
+        HashMap<Vertex, Double> distances = distanceFrom(source);
+        if (!distances.containsKey(target) || distances.get(target) == Double.POSITIVE_INFINITY) {
+            return null; // No path exists
+        }
+
+        // Use a priority queue to select the vertex with the shortest distance
+        PriorityQueue<Vertex> queue = new Heap<>();
+        queue.offer(source);
+
+        // Keep track of the previous vertex to reconstruct the path
+        HashMap<Vertex, Vertex> previous = new HashMap<>();
+        previous.put(source, null);
+
+        while (queue.size() != 0) {
+            Vertex current = queue.poll();
+
+            if (current.equals(target)) {
+                break; // Found the target vertex, exit the loop
+            }
+
+            for (Edge edge : current.incidentEdges()) {
+                Vertex neighbor = edge.other(current);
+                double newDistance = distances.get(current) + edge.distance();
+
+                if (!distances.containsKey(neighbor) || newDistance < distances.get(neighbor)) {
+                    distances.put(neighbor, newDistance);
+                    previous.put(neighbor, current);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        // Reconstruct the shortest path
+        ArrayList<Vertex> shortestPath = new ArrayList<>();
+        Vertex vertex = target;
+        while (vertex != null) {
+            shortestPath.add(0, vertex);
+            vertex = previous.get(vertex);
+        }
+
+        return shortestPath;
     }
 
     public static void main(String[] args) {

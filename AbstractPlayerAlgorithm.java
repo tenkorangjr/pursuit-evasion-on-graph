@@ -54,9 +54,4 @@ public abstract class AbstractPlayerAlgorithm {
      */
     public abstract Vertex chooseNext(Vertex otherPlayer);
 
-    public static void main(String[] args) {
-        /*
-         * Testing class 
-         */
-    }
 }
