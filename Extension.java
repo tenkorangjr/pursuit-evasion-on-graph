@@ -10,7 +10,7 @@ public class Extension {
             // Create the pursuer and evader
             AbstractPlayerAlgorithm pursuer1 = new SmartPursuitPlayerAlgorithm(graph);
             AbstractPlayerAlgorithm pursuer2 = new SmartPursuitPlayerAlgorithm(graph);
-            AbstractPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(graph);
+            MoveAwayPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(graph);
 
             // Have each player choose a starting location
             pursuer1.chooseStart();
@@ -30,12 +30,17 @@ public class Extension {
                 if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                     break;
                 Thread.sleep(500);
+                evader.chooseNext(pursuer1.getCurrentVertex(), pursuer2.getCurrentVertex());
                 display.repaint();
-                pursuer2.chooseNext(evader.getCurrentVertex());
                 if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                     break;
                 Thread.sleep(500);
-                evader.chooseNext(pursuer1.getCurrentVertex());
+                pursuer2.chooseNext(evader.getCurrentVertex());
+                display.repaint();
+                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
+                    break;
+                Thread.sleep(500);
+                evader.chooseNext(pursuer1.getCurrentVertex(), pursuer2.getCurrentVertex());
                 display.repaint();
             }
 
