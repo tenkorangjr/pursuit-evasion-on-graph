@@ -215,11 +215,10 @@ public class Graph {
      * Compute the shortest path in this Graph from the given Vertex source to the
      * target Vertex.
      * Returns the list of vertices representing the shortest path.
-     * If no path exists, returns null.
      *
-     * @param source the source vertex
-     * @param target the target vertex
-     * @return the shortest path as a list of vertices
+     * @param source
+     * @param target
+     * @return
      */
     public ArrayList<Vertex> shortestPath(Vertex source, Vertex target) {
         HashMap<Vertex, Double> distances = distanceFrom(source);
@@ -228,15 +227,15 @@ public class Graph {
         }
 
         // Use a priority queue to select the vertex with the shortest distance
-        PriorityQueue<Vertex> queue = new Heap<>();
-        queue.offer(source);
+        PriorityQueue<Vertex> priorityQueue = new Heap<>();
+        priorityQueue.offer(source);
 
         // Keep track of the previous vertex to reconstruct the path
         HashMap<Vertex, Vertex> previous = new HashMap<>();
         previous.put(source, null);
 
-        while (queue.size() != 0) {
-            Vertex current = queue.poll();
+        while (priorityQueue.size() != 0) {
+            Vertex current = priorityQueue.poll();
 
             if (current.equals(target)) {
                 break; // Found the target vertex, exit the loop
@@ -249,7 +248,7 @@ public class Graph {
                 if (!distances.containsKey(neighbor) || newDistance < distances.get(neighbor)) {
                     distances.put(neighbor, newDistance);
                     previous.put(neighbor, current);
-                    queue.offer(neighbor);
+                    priorityQueue.offer(neighbor);
                 }
             }
         }

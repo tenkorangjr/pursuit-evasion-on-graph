@@ -52,7 +52,7 @@ public class SmartPursuitPlayerAlgorithm extends AbstractPlayerAlgorithm {
         if (shortestPath != null && shortestPath.size() > 1) {
             nextVertex = shortestPath.get(1);
         } else {
-            // If no path found, choose a random adjacent vertex
+            // Choose a random adjacent vertex if path is not found
             List<Vertex> adjacentVertices = curVertex.adjacentVertices();
             if (!adjacentVertices.isEmpty()) {
                 nextVertex = adjacentVertices.get(picker.nextInt(adjacentVertices.size()));
