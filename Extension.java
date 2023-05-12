@@ -61,8 +61,11 @@ public class Extension {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        int n = 10;
-        double p = 0.2;
-        new Extension(n, p, true);
+        int n = 8;
+        double p = 0.22;
+        if (args.length > 0 && args[0].equals("-m"))
+            new Extension(n, p, true);
+        else
+            new Extension(n, p, false);
     }
 }

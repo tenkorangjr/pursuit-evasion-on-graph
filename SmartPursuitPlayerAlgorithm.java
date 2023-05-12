@@ -5,8 +5,9 @@
 */
 
 import java.util.Random;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 
 public class SmartPursuitPlayerAlgorithm extends AbstractPlayerAlgorithm {
     private Random picker;
@@ -46,14 +47,14 @@ public class SmartPursuitPlayerAlgorithm extends AbstractPlayerAlgorithm {
             return curVertex;
         }
 
-        List<Vertex> shortestPath = graph.shortestPath(curVertex, otherPlayer);
+        ArrayList<Vertex> shortestPath = graph.shortestPath(curVertex, otherPlayer);
         Vertex nextVertex = null;
 
         if (shortestPath != null && shortestPath.size() > 1) {
             nextVertex = shortestPath.get(1);
         } else {
-            // Choose a random adjacent vertex if path is not found
-            List<Vertex> adjacentVertices = curVertex.adjacentVertices();
+            // Choose a random adjacent vertex if there's no path
+            LinkedList<Vertex> adjacentVertices = curVertex.adjacentVertices();
             if (!adjacentVertices.isEmpty()) {
                 nextVertex = adjacentVertices.get(picker.nextInt(adjacentVertices.size()));
             }
