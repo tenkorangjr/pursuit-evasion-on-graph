@@ -1,6 +1,6 @@
 public class Driver {
 
-    public Driver(int n, double p) throws InterruptedException{
+    public Driver(int n, double p) throws InterruptedException {
         // Create a random graph on which to play
         Graph graph = new Graph(n, p);
 
@@ -19,11 +19,11 @@ public class Driver {
         display.repaint();
 
         // Play the game until the pursuer captures the evader
-        while (pursuer.getCurrentVertex() != evader.getCurrentVertex()){
+        while (pursuer.getCurrentVertex() != evader.getCurrentVertex()) {
             Thread.sleep(500);
             pursuer.chooseNext(evader.getCurrentVertex());
             display.repaint();
-            if (pursuer.getCurrentVertex() != evader.getCurrentVertex()){
+            if (pursuer.getCurrentVertex() != evader.getCurrentVertex()) {
                 Thread.sleep(500);
                 evader.chooseNext(pursuer.getCurrentVertex());
                 display.repaint();
@@ -31,9 +31,9 @@ public class Driver {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
         int n = 7;
-        double p = .4;
+        double p = .3;
         new Driver(n, p);
     }
 }

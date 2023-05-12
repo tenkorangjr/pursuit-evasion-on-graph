@@ -38,12 +38,15 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm {
 
     public Vertex chooseStart(Vertex other, Vertex other2) {
         HashMap<Vertex, Double> distances = graph.distanceFrom(other);
+        HashMap<Vertex, Double> distances2 = graph.distanceFrom(other2);
         Vertex maxVertex = null;
 
         for (Vertex vertex : graph.getVertices()) {
             if (maxVertex == null) {
                 maxVertex = vertex;
-            } else if (distances.get(vertex) > distances.get(maxVertex) && vertex != other && vertex != other2) {
+            } else if (!vertex.equals(other) && !vertex.equals(other2)
+                    && (distances.get(maxVertex) < distances.get(vertex)
+                            || distances2.get(maxVertex) < distances2.get(vertex))) {
                 maxVertex = vertex;
             }
         }
@@ -71,13 +74,15 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm {
 
     public Vertex chooseNext(Vertex otherPlayer, Vertex otherPlayer2) {
         HashMap<Vertex, Double> distances = graph.distanceFrom(otherPlayer);
+        HashMap<Vertex, Double> distances2 = graph.distanceFrom(otherPlayer2);
         Vertex maxNeighbor = null;
 
         for (Vertex vertex : curVertex.adjacentVertices()) {
             if (maxNeighbor == null) {
                 maxNeighbor = vertex;
             } else if (!vertex.equals(otherPlayer) && !vertex.equals(otherPlayer2)
-                    && distances.get(maxNeighbor) < distances.get(vertex)) {
+                    && (distances.get(maxNeighbor) < distances.get(vertex)
+                            || distances2.get(maxNeighbor) < distances2.get(vertex))) {
                 maxNeighbor = vertex;
             }
         }
