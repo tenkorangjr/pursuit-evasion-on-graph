@@ -1,3 +1,9 @@
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
+*/
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,61 +16,66 @@ public class Graph {
     private LinkedList<Edge> edges;
     private int size;
 
-    public Graph(int n, double probability){
+    public Graph(int n, double probability) {
         Random picker = new Random();
         vertices = new LinkedList<>();
         edges = new LinkedList<>();
         this.size = n;
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             vertices.addLast(new Vertex());
         }
-        for (Vertex vertex1: vertices){
-            for (Vertex vertex2: vertices){
-                if (!vertex2.equals(vertex1) && vertex2.getEdgeTo(vertex1) == null && picker.nextDouble() <= probability){
+        for (Vertex vertex1 : vertices) {
+            for (Vertex vertex2 : vertices) {
+                if (!vertex2.equals(vertex1) && vertex2.getEdgeTo(vertex1) == null
+                        && picker.nextDouble() <= probability) {
                     addEdge(vertex2, vertex1, 1.0);
                 }
             }
         }
     }
 
-    public Graph(int n){
+    public Graph(int n) {
         this(n, 0.0);
     }
 
-    public Graph(){
+    public Graph() {
         this(0);
     }
 
     /**
      * Return the size of the graph
+     * 
      * @return
      */
-    public int size(){
+    public int size() {
         return size;
     }
 
     /**
      * Return a list of the vertices in the graph
+     * 
      * @return
      */
-    public LinkedList<Vertex> getVertices(){
+    public LinkedList<Vertex> getVertices() {
         return vertices;
     }
 
     /**
      * Return the list of the edges in the graph
+     * 
      * @return
      */
-    public LinkedList<Edge> getEdges(){
+    public LinkedList<Edge> getEdges() {
         return edges;
     }
 
     /**
      * Add a vertex to the graph
+     * 
      * @return
      */
-    public Vertex addVertex(){
+    public Vertex addVertex() {
         Vertex newVertex = new Vertex();
         vertices.addLast(newVertex);
         size += 1;
@@ -72,13 +83,15 @@ public class Graph {
     }
 
     /**
-     * Adds an egde between u and v with distance `distance` to the graph and returns it
+     * Adds an egde between u and v with distance `distance` to the graph and
+     * returns it
+     * 
      * @param u
      * @param v
      * @param distance
      * @return
      */
-    public Edge addEdge(Vertex u, Vertex v, double distance){
+    public Edge addEdge(Vertex u, Vertex v, double distance) {
         Edge newEdge = new Edge(u, v, distance);
         u.addEdge(newEdge);
         v.addEdge(newEdge);
@@ -89,13 +102,14 @@ public class Graph {
     /**
      * Returns the edge that connects the two vertices params.
      * If there is no edge, return null
+     * 
      * @param u
      * @param v
      * @return
      */
-    public Edge getEdge(Vertex u, Vertex v){
-        for (Edge edge: edges){
-            if (edge.other(v).equals(u)){
+    public Edge getEdge(Vertex u, Vertex v) {
+        for (Edge edge : edges) {
+            if (edge.other(v).equals(u)) {
                 return edge;
             }
         }
@@ -104,14 +118,15 @@ public class Graph {
 
     /**
      * Removes a vertex from the graph and from the edge
+     * 
      * @param vertex
      * @return
      */
-    public boolean remove(Vertex vertex){
-        if (vertices.contains(vertex)){
+    public boolean remove(Vertex vertex) {
+        if (vertices.contains(vertex)) {
             vertices.remove(vertex);
             // Remove all of its edges and the vertex
-            for (Edge edge: vertex.incidentEdges()){
+            for (Edge edge : vertex.incidentEdges()) {
                 edge.other(vertex).removeEdge(edge);
             }
             size -= 1;
@@ -123,15 +138,16 @@ public class Graph {
     /**
      * Remove an edge from the graph.
      * Removes edge from vertices also.
+     * 
      * @param edge
      * @return
      */
-    public boolean remove(Edge edge){
-        if (edge == null){
+    public boolean remove(Edge edge) {
+        if (edge == null) {
             return false;
         }
         Vertex[] toRemoveVertices = edge.vertices();
-        for (Vertex ver: toRemoveVertices){
+        for (Vertex ver : toRemoveVertices) {
             ver.removeEdge(edge);
         }
 
@@ -139,17 +155,19 @@ public class Graph {
     }
 
     /**
-     * Compute the minimal distance in this Graph from the given Vertex source to all other Vertices in the graph. 
+     * Compute the minimal distance in this Graph from the given Vertex source to
+     * all other Vertices in the graph.
      * The HashMap returned maps each Vertex to its distance from the source.
+     * 
      * @param source
      * @return
      */
-    public HashMap<Vertex, Double> distanceFrom(Vertex source){
+    public HashMap<Vertex, Double> distanceFrom(Vertex source) {
         HashMap<Vertex, Double> distances = new HashMap<>();
 
         distances.put(source, 0.0);
-        for (Vertex vertex: vertices){
-            if (!vertex.equals(source)){
+        for (Vertex vertex : vertices) {
+            if (!vertex.equals(source)) {
                 distances.put(vertex, Double.POSITIVE_INFINITY);
             }
         }
@@ -158,32 +176,32 @@ public class Graph {
 
             @Override
             public int compare(Vertex o1, Vertex o2) {
-                if (distances.get(o1) > distances.get(o2)){
+                if (distances.get(o1) > distances.get(o2)) {
                     return 1;
-                } else if (distances.get(o1) < distances.get(o2)){
+                } else if (distances.get(o1) < distances.get(o2)) {
                     return -1;
                 } else {
                     return 0;
                 }
             }
-            
+
         };
         PriorityQueue<Vertex> priorityQueue = new Heap<Vertex>(comparator, false);
 
         priorityQueue.offer(source);
-        for (Vertex vertex: vertices){
-            if (!vertex.equals(source)){
+        for (Vertex vertex : vertices) {
+            if (!vertex.equals(source)) {
                 priorityQueue.offer(vertex);
-            }  
+            }
         }
 
-        while (priorityQueue.size() > 0){
+        while (priorityQueue.size() > 0) {
             Vertex curVertex = priorityQueue.poll();
-            for (Edge edge: curVertex.incidentEdges()){
+            for (Edge edge : curVertex.incidentEdges()) {
                 double newDistance = distances.get(curVertex) + edge.distance();
 
                 Vertex otherVertex = edge.other(curVertex);
-                if (newDistance < distances.get(otherVertex)){
+                if (newDistance < distances.get(otherVertex)) {
                     distances.put(otherVertex, newDistance);
                     priorityQueue.updatePriority(otherVertex);
                 }
@@ -193,9 +211,9 @@ public class Graph {
         return distances;
     }
 
-    
     /**
-     * Compute the shortest path in this Graph from the given Vertex source to the target Vertex.
+     * Compute the shortest path in this Graph from the given Vertex source to the
+     * target Vertex.
      * Returns the list of vertices representing the shortest path.
      * If no path exists, returns null.
      *
@@ -250,7 +268,7 @@ public class Graph {
     public static void main(String[] args) {
         Graph graph = new Graph(10, 0.5);
 
-        assert graph.size() == 10: "size() method not working";
+        assert graph.size() == 10 : "size() method not working";
         System.out.println("10 == " + graph.size());
     }
 }

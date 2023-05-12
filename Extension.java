@@ -1,3 +1,9 @@
+/**
+ * Author: Michael Tenkorang
+ * Course: CS231
+ * Purpose: Implementing a pursuit simulation with graphs
+ */
+
 public class Extension {
 
     public Extension(int n, Double p, boolean multiplePursuers) throws InterruptedException {

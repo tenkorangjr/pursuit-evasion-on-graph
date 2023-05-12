@@ -1,3 +1,9 @@
+/**
+ * Author: Michael Tenkorang
+ * Course: CS231
+ * Purpose: Implementing a pursuit simulation with graphs
+ */
+
 public class Driver {
 
     public Driver(int n, double p) throws InterruptedException {

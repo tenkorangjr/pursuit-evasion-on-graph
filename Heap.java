@@ -1,6 +1,7 @@
-/*
-* Name: Michael Tenkorang
-* Class Purpose: Searching a grid with heaps
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
 */
 
 import java.util.Comparator;
@@ -35,10 +36,10 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Constructor
-    * 
-    * @param comparator
-    * @param maxHeap
-    */
+     * 
+     * @param comparator
+     * @param maxHeap
+     */
     public Heap(Comparator<T> comparator, boolean maxHeap) {
         if (comparator != null) {
             this.comparator = comparator;
@@ -69,9 +70,9 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Add an item to the heap
-    * 
-    * @param item
-    */
+     * 
+     * @param item
+     */
     @Override
     public void offer(T item) {
         if (size == 0) {
@@ -108,10 +109,10 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Swap the data of two nodes
-    * 
-    * @param node1
-    * @param node2
-    */
+     * 
+     * @param node1
+     * @param node2
+     */
     private void swap(Node<T> node1, Node<T> node2) {
         T temp = node1.data;
         node1.data = node2.data;
@@ -120,9 +121,9 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Bubble up with curNode and its parent
-    * 
-    * @param curNode
-    */
+     * 
+     * @param curNode
+     */
     private void bubbleUp(Node<T> curNode) {
         if (curNode == root) {
             return;
@@ -139,9 +140,9 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Bubble down with the children of curNode
-    * 
-    * @param curNode
-    */
+     * 
+     * @param curNode
+     */
     private void bubbleDown(Node<T> curNode) {
         if (curNode.left == null)
             return;
@@ -168,14 +169,14 @@ public class Heap<T> implements PriorityQueue<T> {
     @Override
     /**
      * Get the size of the heap
-    */
+     */
     public int size() {
         return size;
     }
 
     /**
      * Get the data in the root of the heap
-    */
+     */
     @Override
     public T peek() {
         return root.data;
@@ -183,7 +184,7 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Removes and returns the root of the heap
-    */
+     */
     @Override
     public T poll() {
         if (size == 0) {
@@ -233,7 +234,7 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Update the priority of an item
-    */
+     */
     @Override
     public void updatePriority(T item) {
         Node<T> node = find(root, item);
@@ -247,11 +248,11 @@ public class Heap<T> implements PriorityQueue<T> {
 
     /**
      * Returns the node with data equal to item
-    * 
-    * @param curNode
-    * @param item
-    * @return
-    */
+     * 
+     * @param curNode
+     * @param item
+     * @return
+     */
     private Node<T> find(Node<T> curNode, T item) {
         if (curNode == null) {
             return null;

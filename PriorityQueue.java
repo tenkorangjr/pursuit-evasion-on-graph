@@ -1,9 +1,10 @@
-/*
- * Name: Michael Tenkorang
- * Class Purpose: Searching a grid with heaps
+/**
+ * Author: Michael Tenkorang
+ * Course: CS231
+ * Purpose: Implementing a pursuit simulation with graphs
  */
 
- public interface PriorityQueue<T> {
+public interface PriorityQueue<T> {
 
     /**
      * Adds the given {@code item} into this queue.

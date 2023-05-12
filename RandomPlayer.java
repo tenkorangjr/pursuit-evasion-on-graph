@@ -1,6 +1,12 @@
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
+*/
+
 import java.util.Random;
 
-public class RandomPlayer extends AbstractPlayerAlgorithm{
+public class RandomPlayer extends AbstractPlayerAlgorithm {
 
     Random picker;
 
@@ -20,7 +26,7 @@ public class RandomPlayer extends AbstractPlayerAlgorithm{
     public Vertex chooseStart(Vertex other) {
         this.curVertex = graph.getVertices().get(picker.nextInt(0, graph.size()));
         Vertex out = curVertex;
-        while (out == other){
+        while (out == other) {
             out = graph.getVertices().get(picker.nextInt(0, graph.size()));
         }
 
@@ -31,7 +37,7 @@ public class RandomPlayer extends AbstractPlayerAlgorithm{
     @Override
     public Vertex chooseNext(Vertex otherPlayer) {
         Vertex out = curVertex;
-        while (this.curVertex.equals(out)){
+        while (this.curVertex.equals(out)) {
             out = curVertex.adjacentVertices().get(picker.nextInt(0, curVertex.adjacentVertices().size()));
         }
 
@@ -41,8 +47,8 @@ public class RandomPlayer extends AbstractPlayerAlgorithm{
 
     public static void main(String[] args) {
         /*
-         * Testing class 
+         * Testing class
          */
     }
-    
+
 }

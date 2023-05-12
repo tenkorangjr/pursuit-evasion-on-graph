@@ -1,3 +1,9 @@
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
+*/
+
 import java.util.Random;
 import java.util.LinkedList;
 import java.util.HashMap;
@@ -36,6 +42,13 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm {
         return maxVertex;
     }
 
+    /**
+     * Chooses the start on a multiplayer board and returns it.
+     * 
+     * @param other
+     * @param other2
+     * @return
+     */
     public Vertex chooseStart(Vertex other, Vertex other2) {
         HashMap<Vertex, Double> distances = graph.distanceFrom(other);
         HashMap<Vertex, Double> distances2 = graph.distanceFrom(other2);
@@ -72,6 +85,13 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm {
         return curVertex;
     }
 
+    /**
+     * Chooses the next vertex to go in a multiplayer mode and returns it.
+     * 
+     * @param otherPlayer
+     * @param otherPlayer2
+     * @return
+     */
     public Vertex chooseNext(Vertex otherPlayer, Vertex otherPlayer2) {
         HashMap<Vertex, Double> distances = graph.distanceFrom(otherPlayer);
         HashMap<Vertex, Double> distances2 = graph.distanceFrom(otherPlayer2);

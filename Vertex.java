@@ -1,21 +1,28 @@
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
+*/
+
 import java.util.LinkedList;
 
-public class Vertex{
+public class Vertex {
 
     private LinkedList<Edge> edges;
 
-    public Vertex(){
+    public Vertex() {
         edges = new LinkedList<>();
     }
 
     /**
      * Returns the edge which connects this vertex to parameter vertex
+     * 
      * @param vertex
      * @return
      */
-    public Edge getEdgeTo(Vertex vertex){
-        for (Edge edge: edges){
-            if (edge.other(this).equals(vertex)){
+    public Edge getEdgeTo(Vertex vertex) {
+        for (Edge edge : edges) {
+            if (edge.other(this).equals(vertex)) {
                 return edge;
             }
         }
@@ -24,19 +31,21 @@ public class Vertex{
 
     /**
      * Adds an edge to the edges of a particular vertex
+     * 
      * @param edge
      */
-    public void addEdge(Edge edge){
+    public void addEdge(Edge edge) {
         edges.addLast(edge);
     }
 
     /**
      * Removes an edge object from a vertex
+     * 
      * @param edge
      * @return
      */
-    public boolean removeEdge(Edge edge){
-        if (edges.contains(edge)){
+    public boolean removeEdge(Edge edge) {
+        if (edges.contains(edge)) {
             edges.remove(edge);
             return true;
         }
@@ -45,11 +54,12 @@ public class Vertex{
 
     /**
      * Returns a list of the vertices adjacent to the vertex
+     * 
      * @return
      */
-    public LinkedList<Vertex> adjacentVertices(){
+    public LinkedList<Vertex> adjacentVertices() {
         LinkedList<Vertex> out = new LinkedList<>();
-        for (Edge curEdge: edges){
+        for (Edge curEdge : edges) {
             out.addLast(curEdge.other(this));
         }
 
@@ -58,9 +68,10 @@ public class Vertex{
 
     /**
      * Returns all the edges that are incident to this vertex
+     * 
      * @return
      */
-    public Iterable<Edge> incidentEdges(){
+    public Iterable<Edge> incidentEdges() {
         return edges;
     }
 }

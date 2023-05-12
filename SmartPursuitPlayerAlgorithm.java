@@ -1,3 +1,9 @@
+
+/**Author: Michael Tenkorang
+*Course: CS231
+*Purpose: Implementing a pursuit simulation with graphs
+*/
+
 import java.util.Random;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +41,7 @@ public class SmartPursuitPlayerAlgorithm extends AbstractPlayerAlgorithm {
 
     @Override
     public Vertex chooseNext(Vertex otherPlayer) {
-        if (curVertex.adjacentVertices().contains(otherPlayer)){
+        if (curVertex.adjacentVertices().contains(otherPlayer)) {
             curVertex = otherPlayer;
             return curVertex;
         }
