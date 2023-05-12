@@ -2,14 +2,14 @@ import java.util.Random;
 import java.util.LinkedList;
 import java.util.HashMap;
 
-public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
+public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm {
 
     Random picker;
 
     public MoveAwayPlayerAlgorithm(Graph graph) {
         super(graph);
         picker = new Random();
-        curVertex = ((LinkedList<Vertex>)graph.getVertices()).get(picker.nextInt(graph.size()));
+        curVertex = ((LinkedList<Vertex>) graph.getVertices()).get(picker.nextInt(graph.size()));
     }
 
     @Override
@@ -24,11 +24,10 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         HashMap<Vertex, Double> distances = graph.distanceFrom(other);
         Vertex maxVertex = null;
 
-        for (Vertex vertex: graph.getVertices()){
-            if (maxVertex == null){
+        for (Vertex vertex : graph.getVertices()) {
+            if (maxVertex == null) {
                 maxVertex = vertex;
-            }
-            else if (distances.get(vertex) > distances.get(maxVertex) && vertex != other){
+            } else if (distances.get(vertex) > distances.get(maxVertex) && vertex != other) {
                 maxVertex = vertex;
             }
         }
@@ -41,11 +40,10 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         HashMap<Vertex, Double> distances = graph.distanceFrom(other);
         Vertex maxVertex = null;
 
-        for (Vertex vertex: graph.getVertices()){
-            if (maxVertex == null){
+        for (Vertex vertex : graph.getVertices()) {
+            if (maxVertex == null) {
                 maxVertex = vertex;
-            }
-            else if (distances.get(vertex) > distances.get(maxVertex) && vertex != other && vertex != other2){
+            } else if (distances.get(vertex) > distances.get(maxVertex) && vertex != other && vertex != other2) {
                 maxVertex = vertex;
             }
         }
@@ -59,10 +57,10 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         HashMap<Vertex, Double> distances = graph.distanceFrom(otherPlayer);
         Vertex maxNeighbor = null;
 
-        for (Vertex vertex: curVertex.adjacentVertices()){
-            if (maxNeighbor == null){
+        for (Vertex vertex : curVertex.adjacentVertices()) {
+            if (maxNeighbor == null) {
                 maxNeighbor = vertex;
-            } else if (!vertex.equals(otherPlayer) && distances.get(maxNeighbor) < distances.get(vertex)){
+            } else if (!vertex.equals(otherPlayer) && distances.get(maxNeighbor) < distances.get(vertex)) {
                 maxNeighbor = vertex;
             }
         }
@@ -75,10 +73,11 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         HashMap<Vertex, Double> distances = graph.distanceFrom(otherPlayer);
         Vertex maxNeighbor = null;
 
-        for (Vertex vertex: curVertex.adjacentVertices()){
-            if (maxNeighbor == null){
+        for (Vertex vertex : curVertex.adjacentVertices()) {
+            if (maxNeighbor == null) {
                 maxNeighbor = vertex;
-            } else if (!vertex.equals(otherPlayer) && !vertex.equals(otherPlayer2) && distances.get(maxNeighbor) < distances.get(vertex)){
+            } else if (!vertex.equals(otherPlayer) && !vertex.equals(otherPlayer2)
+                    && distances.get(maxNeighbor) < distances.get(vertex)) {
                 maxNeighbor = vertex;
             }
         }
@@ -86,5 +85,5 @@ public class MoveAwayPlayerAlgorithm extends AbstractPlayerAlgorithm{
         curVertex = maxNeighbor;
         return curVertex;
     }
-    
+
 }

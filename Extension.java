@@ -1,15 +1,15 @@
 public class Extension {
 
-    public Extension(int n, Double p, boolean multiplePursuers) throws InterruptedException{
+    public Extension(int n, Double p, boolean multiplePursuers) throws InterruptedException {
 
         // Create a new graph
         Graph graph = new Graph(n, p);
 
-        if (multiplePursuers){
+        if (multiplePursuers) {
 
             // Create the pursuer and evader
-            AbstractPlayerAlgorithm pursuer1 = new SmartPursuitPlayerAlgorithm(graph);
-            AbstractPlayerAlgorithm pursuer2 = new SmartPursuitPlayerAlgorithm(graph);
+            AbstractPlayerAlgorithm pursuer1 = new MoveTowardsPlayerAlgorithm(graph);
+            AbstractPlayerAlgorithm pursuer2 = new MoveTowardsPlayerAlgorithm(graph);
             MoveAwayPlayerAlgorithm evader = new MoveAwayPlayerAlgorithm(graph);
 
             // Have each player choose a starting location
@@ -23,21 +23,25 @@ public class Extension {
             GraphDisplay display = new GraphDisplay(graph, pursuer1, pursuer2, evader, 40);
             display.repaint();
 
-            while ((pursuer2.getCurrentVertex() != evader.getCurrentVertex()) || (pursuer1.getCurrentVertex() != evader.getCurrentVertex())) {
+            while ((pursuer2.getCurrentVertex() != evader.getCurrentVertex())
+                    || (pursuer1.getCurrentVertex() != evader.getCurrentVertex())) {
                 Thread.sleep(500);
                 pursuer1.chooseNext(evader.getCurrentVertex());
                 display.repaint();
-                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
+                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex())
+                        || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                     break;
                 Thread.sleep(500);
                 evader.chooseNext(pursuer1.getCurrentVertex(), pursuer2.getCurrentVertex());
                 display.repaint();
-                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
+                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex())
+                        || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                     break;
                 Thread.sleep(500);
                 pursuer2.chooseNext(evader.getCurrentVertex());
                 display.repaint();
-                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex()) || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
+                if ((pursuer1.getCurrentVertex() == evader.getCurrentVertex())
+                        || (pursuer2.getCurrentVertex() == evader.getCurrentVertex()))
                     break;
                 Thread.sleep(500);
                 evader.chooseNext(pursuer1.getCurrentVertex(), pursuer2.getCurrentVertex());
@@ -47,7 +51,6 @@ public class Extension {
         } else {
             new Driver(n, p);
         }
-
 
     }
 
